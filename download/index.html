@@ -3,324 +3,771 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>下载云际会议</title>
+  <title>云际会议下载中心</title>
+  <meta name="description" content="云际会议多平台客户端下载中心，支持 Windows、Android、Linux 与 iPhone/iPad。">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1b31;
+      --panel: rgba(10, 24, 43, 0.82);
+      --panel-strong: rgba(12, 28, 49, 0.94);
+      --line: rgba(152, 193, 255, 0.16);
+      --text: #edf4ff;
+      --muted: #9db1cf;
+      --brand: #2ec5a7;
+      --brand-deep: #169b88;
+      --accent: #58a6ff;
+      --accent-soft: rgba(88, 166, 255, 0.14);
+      --warning: #ffcc66;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
       min-height: 100vh;
-      color: #333;
+      font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(88, 166, 255, 0.22), transparent 32%),
+        radial-gradient(circle at 85% 12%, rgba(46, 197, 167, 0.18), transparent 24%),
+        linear-gradient(160deg, #07111f 0%, #0a1730 48%, #08121f 100%);
+      overflow-x: hidden;
     }
 
-    /* 顶部横幅 */
-    .hero {
-      text-align: center;
-      padding: 20px 20px 20px;
-      color: #fff;
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      width: 38rem;
+      height: 38rem;
+      border-radius: 999px;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.22;
     }
-    .hero .logo {
-      width: 160px; height: auto;
-      border-radius: 20px;
-      object-fit: contain;
-    }
-    .hero p { font-size: 18px; opacity: 0.9; max-width: 500px; margin: 0 auto; line-height: 1.6; }
 
-    /* 下载卡片区域 */
-    .download-section {
-      max-width: 1100px;
+    body::before {
+      top: -10rem;
+      right: -12rem;
+      background: #2ec5a7;
+    }
+
+    body::after {
+      bottom: -14rem;
+      left: -10rem;
+      background: #2e7dff;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 0 20px 60px;
+      padding: 28px 0 40px;
     }
-    .section-title {
-      text-align: center;
-      color: rgba(255,255,255,0.9);
-      font-size: 16px;
-      margin-bottom: 30px;
-      letter-spacing: 2px;
-    }
-    .cards {
+
+    .hero {
+      position: relative;
+      overflow: hidden;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+      gap: 28px;
+      align-items: center;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(14, 34, 58, 0.96), rgba(8, 21, 38, 0.92)),
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
     }
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 36px 24px;
-      text-align: center;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-      transition: transform 0.3s, box-shadow 0.3s;
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(115deg, transparent 10%, rgba(88, 166, 255, 0.08) 55%, transparent 85%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 45%);
+      pointer-events: none;
     }
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+
+    .hero-copy,
+    .hero-panel {
+      position: relative;
+      z-index: 1;
     }
-    .card .icon {
-      width: 64px; height: 64px;
-      margin: 0 auto 16px;
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(88, 166, 255, 0.12);
+      border: 1px solid rgba(88, 166, 255, 0.16);
+      color: #cde0ff;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--brand);
+      box-shadow: 0 0 0 6px rgba(46, 197, 167, 0.12);
+    }
+
+    h1 {
+      margin-top: 22px;
+      font-size: clamp(38px, 5vw, 72px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+    }
+
+    .highlight {
+      display: block;
+      color: #7fd8ff;
+      text-shadow: 0 0 22px rgba(127, 216, 255, 0.22);
+    }
+
+    .summary {
+      margin-top: 18px;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
       display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-    }
-    .card .icon svg { width: 56px; height: 56px; }
-    .card h3 { font-size: 20px; margin-bottom: 8px; color: #222; }
-    .card .desc { font-size: 13px; color: #999; margin-bottom: 20px; }
-    .card .btn {
-      display: inline-block;
-      padding: 10px 32px;
-      background: linear-gradient(135deg, #1e88e5, #1565c0);
-      color: #fff;
+      gap: 10px;
+      min-width: 176px;
+      padding: 14px 22px;
+      border-radius: 999px;
       text-decoration: none;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: opacity 0.3s, transform 0.2s;
+      font-size: 15px;
+      font-weight: 700;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease, background 0.22s ease;
     }
-    .card .btn:hover { opacity: 0.85; transform: scale(1.05); }
-    .card .btn-secondary {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 20px;
-      background: transparent;
-      color: #1565c0;
-      text-decoration: none;
-      border: 1.5px solid #1565c0;
-      border-radius: 30px;
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      color: #041018;
+      background: linear-gradient(135deg, #54f0cb, #25c7a8);
+      box-shadow: 0 18px 40px rgba(37, 199, 168, 0.26);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .hero-metrics {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .metric {
+      padding: 12px 14px;
+      min-width: 120px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 18px;
+      color: #ffffff;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
       font-size: 12px;
-      transition: background 0.3s, color 0.3s;
+      letter-spacing: 0.04em;
     }
-    .card .btn-secondary:hover { background: #1565c0; color: #fff; }
 
-    /* Mac 弹窗 */
-    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; }
-    .dialog {
-      display: none;
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      border-radius: 16px;
-      padding: 40px;
-      z-index: 101;
-      max-width: 480px;
-      width: 90%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    .hero-panel {
+      padding: 22px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
     }
-    .dialog h3 { font-size: 20px; margin-bottom: 20px; text-align: center; }
-    .dialog .dialog-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .dialog .dialog-btns a {
-      padding: 10px 24px;
-      border-radius: 30px;
-      text-decoration: none;
+
+    .panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand img {
+      width: 88px;
+      height: 88px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.06);
+      box-shadow: 0 20px 36px rgba(0,0,0,0.24);
+      object-fit: cover;
+    }
+
+    .brand h2 {
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .brand p {
+      margin-top: 6px;
+      color: var(--muted);
       font-size: 14px;
-      font-weight: 500;
-      transition: opacity 0.3s;
     }
-    .dialog .btn-apple { background: linear-gradient(135deg, #1e88e5, #1565c0); color: #fff; }
-    .dialog .btn-intel { background: #f0f0f0; color: #333; border: 1px solid #ddd; }
-    .dialog .btn-apple:hover, .dialog .btn-intel:hover { opacity: 0.8; }
-    .dialog .close-btn {
-      position: absolute; top: 14px; right: 18px;
-      background: none; border: none; font-size: 22px;
-      cursor: pointer; color: #999;
+
+    .chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #d7f9ed;
+      background: rgba(46, 197, 167, 0.12);
+      border: 1px solid rgba(46, 197, 167, 0.2);
+      white-space: nowrap;
     }
-    .dialog .close-btn:hover { color: #333; }
-    .dialog .tip { margin-top: 16px; font-size: 12px; color: #999; text-align: center; }
 
-    /* Linux 弹窗 */
-    .dialog-linux .dialog-btns { margin-bottom: 12px; }
+    .panel-box {
+      margin-top: 22px;
+      display: grid;
+      gap: 12px;
+    }
 
-    /* 页脚 */
+    .panel-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(5, 15, 26, 0.32);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .panel-item-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .panel-item-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: right;
+    }
+
+    .section {
+      margin-top: 26px;
+      padding: 28px;
+      border-radius: 28px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .section-kicker {
+      color: #6ac9ff;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .section-head h3 {
+      margin-top: 8px;
+      font-size: clamp(26px, 3vw, 38px);
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      max-width: 560px;
+      margin-top: 10px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .section-note {
+      color: var(--warning);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .platform-card {
+      grid-column: span 4;
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .platform-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(88, 166, 255, 0.24);
+      background: linear-gradient(180deg, rgba(88, 166, 255, 0.085), rgba(255,255,255,0.03));
+    }
+
+    .platform-card.featured {
+      background: linear-gradient(145deg, rgba(46, 197, 167, 0.12), rgba(88, 166, 255, 0.06));
+      border-color: rgba(46, 197, 167, 0.22);
+    }
+
+    .platform-card.coming {
+      opacity: 0.88;
+    }
+
+    .platform-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .platform-icon {
+      width: 60px;
+      height: 60px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .platform-tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #d8e8ff;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .platform-card h4 {
+      margin-top: 18px;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+
+    .platform-card .platform-subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.7;
+      min-height: 48px;
+    }
+
+    .platform-meta {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .meta-pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #c9daf6;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .platform-actions {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .platform-actions .button {
+      min-width: 0;
+      padding: 12px 18px;
+      font-size: 14px;
+      flex: 1 1 180px;
+    }
+
+    .button-disabled {
+      color: #8ca1bf;
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(255,255,255,0.12);
+      cursor: not-allowed;
+      pointer-events: none;
+      box-shadow: none;
+    }
+
+    .tips {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .tip-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: var(--panel-strong);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .tip-card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .tip-card p {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+    }
+
+    .tip-card code {
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(88, 166, 255, 0.12);
+      color: #cfe4ff;
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+
     .footer {
+      margin-top: 20px;
+      padding: 18px 8px 8px;
       text-align: center;
-      padding: 30px 20px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(219, 231, 248, 0.58);
       font-size: 13px;
     }
-    .footer a { color: rgba(255,255,255,0.8); text-decoration: none; }
-    .footer a:hover { text-decoration: underline; }
 
-    /* 移动端适配 - 横向列表 */
-    @media (max-width: 768px) {
-      .hero { padding: 6px 20px 10px; }
-      .hero .logo { width: 200px; }
-      .hero p { font-size: 13px; max-width: 100%; padding: 0 10px; }
-      .section-title { margin-bottom: 16px; font-size: 13px; }
-      .cards { grid-template-columns: 1fr; gap: 10px; }
-      .card {
-        display: flex;
-        align-items: center;
-        padding: 14px 18px;
-        text-align: left;
-        flex-direction: row;
-        gap: 14px;
+    .footer a {
+      color: rgba(219, 231, 248, 0.82);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 1080px) {
+      .hero {
+        grid-template-columns: 1fr;
       }
-      .card .icon { width: 40px; height: 40px; margin: 0; flex-shrink: 0; }
-      .card .icon svg { width: 36px; height: 36px; }
-      .card .info { flex: 1; min-width: 0; }
-      .card h3 { font-size: 16px; margin-bottom: 2px; }
-      .card .desc { font-size: 12px; margin-bottom: 0; }
-      .card .btn { padding: 8px 22px; font-size: 13px; white-space: nowrap; flex-shrink: 0; }
-      .card .btn-secondary { display: none; }
+
+      .platform-card {
+        grid-column: span 6;
+      }
+
+      .tips {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        width: min(100% - 18px, 100%);
+        padding-top: 12px;
+      }
+
+      .hero,
+      .section {
+        padding: 20px;
+        border-radius: 24px;
+      }
+
+      .panel-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .brand img {
+        width: 72px;
+        height: 72px;
+      }
+
+      .hero-actions,
+      .platform-actions {
+        flex-direction: column;
+      }
+
+      .button,
+      .platform-actions .button {
+        width: 100%;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-note {
+        text-align: left;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .platform-card {
+        grid-column: auto;
+      }
+
+      .platform-card h4 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 <body>
-
-  <!-- 顶部 -->
-  <div class="hero">
-    <img class="logo" src="2.png" alt="云际会议">
-    <p>随时随地，高效协作。<br>支持 Windows / Mac / Linux / Android / iOS 全平台。</p>
-  </div>
-
-  <!-- 下载区域 -->
-  <div class="download-section">
-    <div class="section-title">— 选择你的平台下载 —</div>
-    <div class="cards">
-
-      <!-- Windows -->
-      <div class="card">
-        <div class="icon">
-          <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="88" height="88" rx="16" fill="#0078D4" fill-opacity="0.1"/>
-            <path d="M18 22L42 18.5V42H18V22Z" fill="#0078D4"/>
-            <path d="M45 18L70 14V42H45V18Z" fill="#0078D4"/>
-            <path d="M18 45H42V68.5L18 65V45Z" fill="#0078D4"/>
-            <path d="M45 45H70V73L45 69V45Z" fill="#0078D4"/>
-          </svg>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Cloud Meeting Distribution</div>
+        <h1>
+          云际会议
+          <span class="highlight">客户端下载中心</span>
+        </h1>
+        <p class="summary">
+          为桌面办公、移动入会和跨平台协作准备的正式安装包入口。
+          选择对应系统版本，即可直接下载安装当前可用客户端。
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#downloads">立即选择平台</a>
+          <a class="button button-secondary" href="../云际会议_1.0.0.apk">优先下载 Android 正式版</a>
         </div>
-        <div class="info">
-          <h3>Windows</h3>
-          <div class="desc">Windows 7 及以上</div>
+        <div class="hero-metrics">
+          <div class="metric">
+            <strong>5 个平台</strong>
+            <span>Windows / Android / Linux / iOS / macOS</span>
+          </div>
+          <div class="metric">
+            <strong>正式安装包</strong>
+            <span>当前页面展示的均为可分发版本</span>
+          </div>
+          <div class="metric">
+            <strong>随时更新</strong>
+            <span>下载页可直接替换最新构建产物</span>
+          </div>
         </div>
-        <a class="btn" href="../云际会议.exe" id="win-download">立即下载</a>
       </div>
 
-      <!-- Mac -->
-      <div class="card">
-        <div class="icon">
-          <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="88" height="88" rx="16" fill="#333" fill-opacity="0.08"/>
-            <path d="M57.3 46.2c-.1-5.2 4.2-7.8 4.4-7.9-2.4-3.5-6.1-4-7.5-4.1-3.1-.3-6.2 1.9-7.8 1.9-1.6 0-4.1-1.9-6.7-1.8-3.4.1-6.6 2-8.4 5.2-3.6 6.3-0.9 15.6 2.6 20.7 1.7 2.5 3.7 5.3 6.4 5.2 2.6-.1 3.5-1.7 6.6-1.7 3.1 0 3.9 1.7 6.6 1.6 2.8 0 4.5-2.5 6.2-5 2-2.9 2.8-5.6 2.8-5.8-.1 0-5.4-2.1-5.5-8.3z" fill="#333"/>
-            <path d="M52.2 30.7c1.4-1.7 2.4-4 2.1-6.4-2 .1-4.5 1.4-5.9 3.1-1.3 1.5-2.5 4-2.2 6.3 2.3.2 4.6-1.2 6-3z" fill="#333"/>
-          </svg>
+      <aside class="hero-panel">
+        <div class="panel-top">
+          <div class="brand">
+            <img src="2.png" alt="云际会议">
+            <div>
+              <h2>云际会议</h2>
+              <p>安全稳定的音视频会议平台</p>
+            </div>
+          </div>
+          <div class="chip">正式分发页</div>
         </div>
-        <div class="info">
-          <h3>macOS</h3>
-          <div class="desc">macOS 10.13 及以上</div>
+
+        <div class="panel-box">
+          <div class="panel-item">
+            <span class="panel-item-label">推荐下载</span>
+            <span class="panel-item-value">Android 正式版</span>
+          </div>
+          <div class="panel-item">
+            <span class="panel-item-label">桌面安装</span>
+            <span class="panel-item-value">Windows / Linux</span>
+          </div>
+          <div class="panel-item">
+            <span class="panel-item-label">移动端体验</span>
+            <span class="panel-item-value">Android / iPhone / iPad</span>
+          </div>
+          <div class="panel-item">
+            <span class="panel-item-label">使用建议</span>
+            <span class="panel-item-value">下载后直接安装，首次入会再授予设备权限</span>
+          </div>
         </div>
-        <a class="btn" href="javascript:;" onclick="showMacDialog()">立即下载</a>
+      </aside>
+    </section>
+
+    <section class="section" id="downloads">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Downloads</div>
+          <h3>选择你的设备平台</h3>
+          <p>把常用平台放在最前面，下载入口只保留清晰、直接、可点击的主动作，不再使用无意义弹窗。</p>
+        </div>
+        <div class="section-note">iOS 通过 TestFlight 分发，macOS 版本预留上线位</div>
       </div>
 
-      <!-- Linux -->
-      <div class="card">
-        <div class="icon">
-          <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="88" height="88" rx="16" fill="#FCC624" fill-opacity="0.12"/>
-            <path d="M44 18c-8.8 0-16 7.2-16 16v10c0 4.4-2 8.5-5.5 11.2-.8.6-1 1.7-.4 2.5.4.5 1 .8 1.6.8h40.6c.6 0 1.2-.3 1.6-.8.6-.8.4-1.9-.4-2.5C62 52.5 60 48.4 60 44V34c0-8.8-7.2-16-16-16z" fill="#333"/>
-            <circle cx="38" cy="36" r="3" fill="#FCC624"/>
-            <circle cx="50" cy="36" r="3" fill="#FCC624"/>
-            <path d="M38 48c0 0 2 4 6 4s6-4 6-4" stroke="#FCC624" stroke-width="2" stroke-linecap="round"/>
-            <path d="M32 60h24c0 0-2 10-12 10s-12-10-12-10z" fill="#FCC624"/>
-          </svg>
+      <div class="grid">
+        <article class="platform-card featured">
+          <div class="platform-top">
+            <div class="platform-icon">An</div>
+            <div class="platform-tag">推荐</div>
+          </div>
+          <h4>Android</h4>
+          <p class="platform-subtitle">适用于 Android 6.0 及以上设备，当前页面同步放置最新正式 APK 包。</p>
+          <div class="platform-meta">
+            <span class="meta-pill">正式签名</span>
+            <span class="meta-pill">适合手机和平板</span>
+            <span class="meta-pill">直接下载安装</span>
+          </div>
+          <div class="platform-actions">
+            <a class="button button-primary" href="../云际会议_1.0.0.apk">下载 APK</a>
+          </div>
+        </article>
+
+        <article class="platform-card">
+          <div class="platform-top">
+            <div class="platform-icon">Win</div>
+            <div class="platform-tag">桌面端</div>
+          </div>
+          <h4>Windows</h4>
+          <p class="platform-subtitle">适用于 Windows 7 及以上系统，适合办公室会议、屏幕共享和桌面协作。</p>
+          <div class="platform-meta">
+            <span class="meta-pill">EXE 安装包</span>
+            <span class="meta-pill">开会主力设备</span>
+          </div>
+          <div class="platform-actions">
+            <a class="button button-secondary" href="../云际会议.exe">下载 Windows 版</a>
+          </div>
+        </article>
+
+        <article class="platform-card">
+          <div class="platform-top">
+            <div class="platform-icon">iOS</div>
+            <div class="platform-tag">移动端</div>
+          </div>
+          <h4>iPhone / iPad</h4>
+          <p class="platform-subtitle">通过 TestFlight 安装，适合移动入会、临时连线和外出场景下快速接入会议。</p>
+          <div class="platform-meta">
+            <span class="meta-pill">TestFlight</span>
+            <span class="meta-pill">iOS 12+</span>
+          </div>
+          <div class="platform-actions">
+            <a class="button button-secondary" href="https://testflight.apple.com/join/kFPQhPNU">前往安装</a>
+          </div>
+        </article>
+
+        <article class="platform-card">
+          <div class="platform-top">
+            <div class="platform-icon">Li</div>
+            <div class="platform-tag">桌面端</div>
+          </div>
+          <h4>Linux</h4>
+          <p class="platform-subtitle">当前提供 `.deb` 包，适合 Ubuntu、麒麟、Deepin 等 Debian 系发行版。</p>
+          <div class="platform-meta">
+            <span class="meta-pill">.deb 包</span>
+            <span class="meta-pill">Ubuntu / 麒麟 / Deepin</span>
+          </div>
+          <div class="platform-actions">
+            <a class="button button-secondary" href="../云际会议.deb">下载 Linux 版</a>
+          </div>
+        </article>
+
+        <article class="platform-card coming">
+          <div class="platform-top">
+            <div class="platform-icon">Mac</div>
+            <div class="platform-tag">预留</div>
+          </div>
+          <h4>macOS</h4>
+          <p class="platform-subtitle">页面已预留 Mac 下载位。当前仓库没有可分发的 macOS 安装包时，不展示错误链接。</p>
+          <div class="platform-meta">
+            <span class="meta-pill">Apple 芯片 / Intel</span>
+            <span class="meta-pill">上线后直接替换</span>
+          </div>
+          <div class="platform-actions">
+            <span class="button button-disabled">即将上线</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Guide</div>
+          <h3>下载与安装说明</h3>
+          <p>把用户真正需要的信息放在下载页，而不是让人下载完再回头问装哪个包、怎么装。</p>
         </div>
-        <div class="info">
-          <h3>Linux</h3>
-          <div class="desc">Ubuntu / 麒麟 / Deepin</div>
-        </div>
-        <a class="btn" href="../云际会议.deb">立即下载</a>
       </div>
 
-      <!-- Android -->
-      <div class="card">
-        <div class="icon">
-          <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="88" height="88" rx="16" fill="#3DDC84" fill-opacity="0.12"/>
-            <path d="M33 28l-4-7a1 1 0 0 1 1.7-1l4.1 7.1A20 20 0 0 1 44 25a20 20 0 0 1 9.2 2.1L57.3 20a1 1 0 0 1 1.7 1l-4 7A16 16 0 0 1 62 42H26a16 16 0 0 1 7-14z" fill="#3DDC84"/>
-            <circle cx="36" cy="35" r="2" fill="#fff"/>
-            <circle cx="52" cy="35" r="2" fill="#fff"/>
-            <rect x="26" y="44" width="36" height="20" rx="4" fill="#3DDC84"/>
-            <rect x="20" y="46" width="5" height="14" rx="2.5" fill="#3DDC84"/>
-            <rect x="63" y="46" width="5" height="14" rx="2.5" fill="#3DDC84"/>
-            <rect x="34" y="66" width="5" height="10" rx="2.5" fill="#3DDC84"/>
-            <rect x="49" y="66" width="5" height="10" rx="2.5" fill="#3DDC84"/>
-          </svg>
-        </div>
-        <div class="info">
-          <h3>Android</h3>
-          <div class="desc">Android 6.0 及以上</div>
-        </div>
-        <a class="btn" href="../云际会议_1.0.0.apk" id="android-download">立即下载</a>
+      <div class="tips">
+        <article class="tip-card">
+          <strong>Android 安装</strong>
+          <p>点击下载 APK 后，若系统提示“未知来源应用”，在安装页按系统引导允许后重新安装即可。</p>
+        </article>
+
+        <article class="tip-card">
+          <strong>Linux 安装</strong>
+          <p>当前只提供 Debian 系 `.deb` 包。若不确定系统架构，可在终端执行 <code>uname -m</code> 查看。</p>
+        </article>
+
+        <article class="tip-card">
+          <strong>iOS 入口</strong>
+          <p>iPhone 和 iPad 通过 TestFlight 安装。首次打开后再根据系统提示授权麦克风、摄像头和通知权限。</p>
+        </article>
       </div>
+    </section>
 
-      <!-- iOS -->
-      <div class="card">
-        <div class="icon">
-          <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="88" height="88" rx="16" fill="#007AFF" fill-opacity="0.1"/>
-            <rect x="30" y="16" width="28" height="56" rx="6" stroke="#007AFF" stroke-width="2.5" fill="none"/>
-            <circle cx="44" cy="64" r="3" fill="#007AFF"/>
-            <rect x="38" y="20" width="12" height="3" rx="1.5" fill="#007AFF" fill-opacity="0.4"/>
-          </svg>
-        </div>
-        <div class="info">
-          <h3>iOS</h3>
-          <div class="desc">iOS 12.0 及以上</div>
-        </div>
-        <a class="btn" href="https://testflight.apple.com/join/kFPQhPNU" id="ios-download">前往 App Store</a>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Mac 芯片选择弹窗 -->
-  <div class="overlay" id="overlay" onclick="closeDialogs()"></div>
-  <div class="dialog" id="macDialog">
-    <button class="close-btn" onclick="closeDialogs()">&times;</button>
-    <h3>选择 Mac 版本</h3>
-    <div class="dialog-btns">
-      <a class="btn-apple" href="#">Apple 芯片版 (M1/M2/M3)</a>
-      <a class="btn-intel" href="#">Intel 芯片版</a>
-    </div>
-    <div class="tip">不确定芯片类型？点击左上角  → 关于本机 查看</div>
-  </div>
-
-  <!-- Linux 架构选择弹窗 -->
-  <div class="dialog dialog-linux" id="linuxDialog">
-    <button class="close-btn" onclick="closeDialogs()">&times;</button>
-    <h3>选择 Linux 版本</h3>
-    <div class="dialog-btns">
-      <a class="btn-apple" href="#">x86_64 架构版</a>
-      <a class="btn-intel" href="#">ARM64 架构版</a>
-    </div>
-    <div class="tip">仅提供 .deb 格式（Ubuntu / 麒麟 / Deepin）<br>终端输入 <code>uname -m</code> 查看架构</div>
-  </div>
-
-  <!-- 页脚 -->
-  <div class="footer">
-    <p>云际商务服务股份有限公司 &copy; 2026</p>
-  </div>
-
-  <script>
-    function showMacDialog() {
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('macDialog').style.display = 'block';
-    }
-    function showLinuxDialog() {
-      document.getElementById('overlay').style.display = 'block';
-      document.getElementById('linuxDialog').style.display = 'block';
-    }
-    function closeDialogs() {
-      document.getElementById('overlay').style.display = 'none';
-      document.getElementById('macDialog').style.display = 'none';
-      document.getElementById('linuxDialog').style.display = 'none';
-    }
-    // ESC 关闭弹窗
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeDialogs();
-    });
-  </script>
+    <footer class="footer">
+      <p>云际商务服务股份有限公司 &copy; 2026</p>
+    </footer>
+  </main>
 </body>
 </html>
