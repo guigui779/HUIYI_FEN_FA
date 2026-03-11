@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云际会议 - 企业级音视频协作平台</title>
+  <meta name="description" content="云际会议多平台客户端下载，支持 Windows、Android、iOS、Linux，安全稳定的企业通信解决方案。">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{
+      min-height:100vh;
+      font-family:-apple-system,"SF Pro Display","SF Pro Text","Helvetica Neue","PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+      color:#1d1d1f;
+      background:#fff;
+      line-height:1.5;
+    }
+
+    /* ── NAV ── */
+    .nav{
+      position:sticky;top:0;z-index:100;
+      background:rgba(255,255,255,.82);
+      -webkit-backdrop-filter:saturate(180%) blur(20px);
+      backdrop-filter:saturate(180%) blur(20px);
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .nav-inner{
+      max-width:1080px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 24px;height:52px;
+    }
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#1d1d1f}
+    .nav-brand img{width:28px;height:28px;border-radius:6px}
+    .nav-brand span{font-size:15px;font-weight:600;letter-spacing:-.01em}
+    .nav-link{font-size:13px;color:#424245;text-decoration:none;font-weight:500;transition:color .2s}
+    .nav-link:hover{color:#0071e3}
+
+    /* ── HERO ── */
+    .hero{
+      text-align:center;
+      padding:80px 24px 64px;
+      background:linear-gradient(180deg,#fbfbfd 0%,#f5f5f7 100%);
+    }
+    .hero-badge{
+      display:inline-block;
+      padding:5px 14px;
+      border-radius:980px;
+      background:#e8e8ed;
+      color:#6e6e73;
+      font-size:12px;font-weight:500;
+      letter-spacing:.02em;
+      margin-bottom:20px;
+    }
+    .hero h1{
+      font-size:clamp(32px,5vw,56px);
+      font-weight:700;
+      letter-spacing:-.03em;
+      line-height:1.08;
+      color:#1d1d1f;
+    }
+    .hero h1 span{
+      background:linear-gradient(90deg,#0071e3,#34c759);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .hero-sub{
+      margin-top:16px;
+      font-size:clamp(16px,2.2vw,21px);
+      color:#6e6e73;
+      font-weight:400;
+      line-height:1.5;
+      max-width:580px;margin-left:auto;margin-right:auto;
+    }
+    .hero-actions{
+      margin-top:32px;
+      display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+    }
+
+    /* ── BUTTONS ── */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:12px 28px;border-radius:980px;
+      font-size:15px;font-weight:500;
+      text-decoration:none;
+      transition:all .2s ease;
+      cursor:pointer;border:none;
+    }
+    .btn-primary{
+      background:#0071e3;color:#fff;
+    }
+    .btn-primary:hover{background:#0077ed}
+    .btn-outline{
+      background:transparent;color:#0071e3;
+      border:1px solid #0071e3;
+    }
+    .btn-outline:hover{background:#0071e3;color:#fff}
+    .btn-dark{
+      background:#1d1d1f;color:#fff;
+    }
+    .btn-dark:hover{background:#333}
+    .btn-ghost{
+      background:rgba(0,0,0,.04);color:#1d1d1f;
+      border:1px solid rgba(0,0,0,.08);
+    }
+    .btn-ghost:hover{background:rgba(0,0,0,.08)}
+    .btn svg{width:18px;height:18px;flex-shrink:0}
+
+    /* ── PLATFORMS SECTION ── */
+    .platforms{
+      max-width:1080px;margin:0 auto;
+      padding:64px 24px;
+    }
+    .section-label{
+      text-align:center;
+      font-size:13px;font-weight:600;
+      letter-spacing:.1em;text-transform:uppercase;
+      color:#0071e3;margin-bottom:8px;
+    }
+    .section-title{
+      text-align:center;
+      font-size:clamp(24px,3.5vw,40px);
+      font-weight:700;letter-spacing:-.02em;
+      color:#1d1d1f;
+    }
+    .section-desc{
+      text-align:center;
+      margin-top:10px;
+      font-size:16px;color:#6e6e73;
+      max-width:540px;margin-left:auto;margin-right:auto;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:20px;
+      margin-top:48px;
+    }
+
+    .card{
+      position:relative;
+      padding:32px 24px 28px;
+      border-radius:20px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.06);
+      transition:transform .25s ease,box-shadow .25s ease;
+    }
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 12px 40px rgba(0,0,0,.08);
+    }
+    .card-icon{
+      width:48px;height:48px;
+      border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:20px;
+    }
+    .card-icon svg{width:26px;height:26px}
+    .card-icon.android{background:#e8f5e9;color:#34a853}
+    .card-icon.windows{background:#e3f2fd;color:#0078d4}
+    .card-icon.apple{background:#f3e5f5;color:#1d1d1f}
+    .card-icon.linux{background:#fff3e0;color:#e65100}
+    .card-icon.web{background:#e0f7fa;color:#00838f}
+    .card-tag{
+      position:absolute;top:16px;right:16px;
+      padding:4px 10px;border-radius:980px;
+      font-size:11px;font-weight:600;
+      background:#0071e3;color:#fff;
+    }
+    .card h3{
+      font-size:20px;font-weight:600;
+      letter-spacing:-.01em;color:#1d1d1f;
+    }
+    .card p{
+      margin-top:8px;
+      font-size:14px;color:#86868b;line-height:1.6;
+    }
+    .card-specs{
+      margin-top:16px;
+      display:flex;flex-wrap:wrap;gap:6px;
+    }
+    .spec{
+      padding:4px 10px;border-radius:6px;
+      font-size:12px;color:#6e6e73;
+      background:#f5f5f7;
+    }
+    .card-actions{
+      margin-top:20px;
+      display:flex;flex-wrap:wrap;gap:8px;
+    }
+    .card-actions .btn{
+      padding:10px 20px;font-size:14px;
+      flex:1;min-width:120px;
+    }
+
+    /* ── FEATURES ── */
+    .features{
+      background:#f5f5f7;
+      padding:64px 24px;
+    }
+    .features-inner{
+      max-width:1080px;margin:0 auto;
+    }
+    .feat-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;margin-top:48px;
+    }
+    .feat{
+      padding:28px 24px;
+      border-radius:16px;
+      background:#fff;
+    }
+    .feat-icon{
+      width:40px;height:40px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#0071e3,#34c759);
+      color:#fff;margin-bottom:16px;
+    }
+    .feat-icon svg{width:20px;height:20px}
+    .feat h4{font-size:16px;font-weight:600;color:#1d1d1f}
+    .feat p{margin-top:6px;font-size:13px;color:#86868b;line-height:1.6}
+
+    /* ── FOOTER ── */
+    .footer{
+      border-top:1px solid rgba(0,0,0,.06);
+      padding:24px;
+      text-align:center;
+    }
+    .footer-inner{
+      max-width:1080px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:12px;
+    }
+    .footer p{font-size:12px;color:#86868b}
+    .footer-links{display:flex;gap:16px}
+    .footer-links a{font-size:12px;color:#424245;text-decoration:none}
+    .footer-links a:hover{color:#0071e3}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:680px){
+      .hero{padding:56px 20px 48px}
+      .hero h1{font-size:28px}
+      .hero-sub{font-size:15px}
+      .hero-actions{flex-direction:column;align-items:stretch;padding:0 20px}
+      .platforms{padding:48px 16px}
+      .grid{grid-template-columns:1fr;gap:14px}
+      .feat-grid{grid-template-columns:1fr}
+      .card{padding:24px 20px}
+      .card-actions{flex-direction:column}
+      .card-actions .btn{min-width:0}
+      .footer-inner{flex-direction:column;text-align:center}
+      .nav-link{display:none}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">
+        <img src="../logo.png" alt="云际会议">
+        <span>云际会议</span>
+      </a>
+      <a class="nav-link" href="#downloads">下载客户端</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">全平台支持 &middot; 企业级加密</div>
+    <h1>安全高效的<br><span>企业音视频协作</span></h1>
+    <p class="hero-sub">端到端加密，多平台覆盖，为企业提供稳定、安全、低延迟的远程会议解决方案。</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="../云际会议.apk">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Android 下载
+      </a>
+      <a class="btn btn-outline" href="https://testflight.apple.com/join/kFPQhPNU">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        iOS TestFlight
+      </a>
+    </div>
+  </section>
+
+  <!-- PLATFORMS -->
+  <section class="platforms" id="downloads">
+    <div class="section-label">下载中心</div>
+    <h2 class="section-title">选择适合你的平台</h2>
+    <p class="section-desc">提供 Android、iOS、Windows、Linux 及 Web 端，一个授权码即可全平台入会。</p>
+
+    <div class="grid">
+
+      <!-- Android -->
+      <div class="card">
+        <span class="card-tag">推荐</span>
+        <div class="card-icon android">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.26 6 5.01 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
+        </div>
+        <h3>Android</h3>
+        <p>适用于 Android 6.0 及以上设备，正式签名安装包。</p>
+        <div class="card-specs">
+          <span class="spec">正式签名</span>
+          <span class="spec">手机 &amp; 平板</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-primary" href="../云际会议.apk">下载 APK</a>
+        </div>
+      </div>
+
+      <!-- iOS -->
+      <div class="card">
+        <div class="card-icon apple">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        </div>
+        <h3>iOS / iPadOS</h3>
+        <p>通过 Apple TestFlight 安装，支持 iPhone 和 iPad。</p>
+        <div class="card-specs">
+          <span class="spec">TestFlight</span>
+          <span class="spec">iOS 12+</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-dark" href="https://testflight.apple.com/join/kFPQhPNU">TestFlight 安装</a>
+        </div>
+      </div>
+
+      <!-- Windows -->
+      <div class="card">
+        <div class="card-icon windows">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 12V6.5l8-1.1V12H3zm9-6.8L22 3.5V12H12V5.2zM3 13h8v6.6l-8-1.1V13zm9 0h10v8.5l-10-1.7V13z"/></svg>
+        </div>
+        <h3>Windows</h3>
+        <p>适用于 Windows 10 及以上系统，桌面会议首选。</p>
+        <div class="card-specs">
+          <span class="spec">EXE 安装包</span>
+          <span class="spec">x64</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-ghost" href="../云际会议.exe">下载 Windows 版</a>
+        </div>
+      </div>
+
+      <!-- Linux -->
+      <div class="card">
+        <div class="card-icon linux">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.581 19.049c-.55-.446-.336-1.431-.907-1.917.553-3.365-.997-6.331-2.845-8.232-1.551-1.595-3.005-3.222-3.005-5.464 0-.637-.077-1.222-.3-1.627A1.125 1.125 0 0012.5 1.5h-1a1.125 1.125 0 00-1.024.309c-.223.405-.3.99-.3 1.627 0 2.242-1.453 3.869-3.005 5.464-1.848 1.9-3.398 4.867-2.845 8.232-.571.486-.357 1.471-.907 1.917-.372.302-.138.86.218 1.108.803.559 1.853.762 2.806.831.952.069 1.769-.065 2.748-.065h3.616c.979 0 1.796.134 2.748.065.953-.069 2.003-.272 2.806-.831.356-.249.59-.806.218-1.108z"/></svg>
+        </div>
+        <h3>Linux</h3>
+        <p>Debian / Ubuntu 系统 .deb 安装包。</p>
+        <div class="card-specs">
+          <span class="spec">.deb</span>
+          <span class="spec">x64 / arm64</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-ghost" href="../云际会议.deb">下载 Linux 版</a>
+        </div>
+      </div>
+
+      <!-- Web -->
+      <div class="card">
+        <div class="card-icon web">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <h3>Web 网页版</h3>
+        <p>无需安装，浏览器直接打开即可入会。</p>
+        <div class="card-specs">
+          <span class="spec">Chrome / Edge</span>
+          <span class="spec">免安装</span>
+        </div>
+        <div class="card-actions">
+          <a class="btn btn-ghost" href="https://huiyi-web.vercel.app" target="_blank" rel="noopener">打开网页版</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="features-inner">
+      <div class="section-label">为什么选择云际会议</div>
+      <h2 class="section-title">企业级安全与性能</h2>
+      <div class="feat-grid">
+        <div class="feat">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <h4>端到端加密</h4>
+          <p>E2EE 加密传输，会议内容只有参会者可见，保障商业信息安全。</p>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h4>超低延迟</h4>
+          <p>基于 WebRTC 技术，毫秒级音视频传输，沟通如同面对面。</p>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h4>屏幕共享</h4>
+          <p>一键共享桌面或窗口，远程演示与协作高效流畅。</p>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h4>多人会议</h4>
+          <p>支持多方同时接入，满足团队例会、培训、远程研讨等场景。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>&copy; 2026 云际商务服务股份有限公司. 保留所有权利.</p>
+      <div class="footer-links">
+        <a href="#">隐私政策</a>
+        <a href="#">服务条款</a>
+        <a href="#">联系我们</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
